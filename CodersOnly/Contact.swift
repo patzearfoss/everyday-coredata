@@ -12,6 +12,23 @@ import CoreData
 
 class Contact: NSManagedObject {
 
-// Insert code here to add functionality to your managed object subclass
-
+    override func willSave() {
+        
+        if let emails = emails?.allObjects as? [EmailAddress] where emails.count > 0 {
+            
+            let topEmail = emails.sort {
+                
+                if let email0 = $0.emailAddress, let email1 = $1.emailAddress {
+                    return email0 < email1
+                }
+                
+                return false
+                
+                }.first
+            
+            
+            self.displayedEmailAddress = topEmail?.emailAddress
+            
+        }
+    }
 }

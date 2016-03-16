@@ -85,26 +85,25 @@ extension ListViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
+        cell.textLabel?.text = nil
+        cell.detailTextLabel?.text = nil
+        
+        
+        // assign the first email address in the sorted list
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         
         let contact = contacts[indexPath.row]
         
         cell.textLabel?.text = "\(contact.firstName!) \(contact.lastName!)"
         
-        // assign the first email address in the sorted list
-        if let emails = contact.emails?.allObjects as? [EmailAddress] where emails.count > 0 {
-        
-            cell.detailTextLabel?.text = emails.sort {
-                
-                if let email0 = $0.emailAddress, let email1 = $1.emailAddress {
-                    return email0 < email1
-                }
-                
-                return false
-                
-            }.first?.emailAddress ?? ""
+        if let email = contact.displayedEmailAddress {
+            cell.detailTextLabel?.text = email
         }
         
-        return cell
     }
 }
 

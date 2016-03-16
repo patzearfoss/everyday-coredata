@@ -19,6 +19,7 @@ extension Contact {
     @NSManaged var company: String?
     @NSManaged var jobTitle: String?
     @NSManaged var isFavorite: NSNumber?
+    @NSManaged var displayedEmailAddress: String?
     @NSManaged var emails: NSSet?
     @NSManaged var phones: NSSet?
     @NSManaged var socialNetworks: NSSet?
