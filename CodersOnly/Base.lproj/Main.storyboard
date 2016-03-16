@@ -81,6 +81,11 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Contacts" id="1Dc-3z-ImS">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="Ohw-3V-vRG">
+                            <connections>
+                                <segue destination="NX3-Ad-9jb" kind="presentation" id="Mxy-nr-mdj"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Make me contacts" id="ayv-oX-fw3">
                             <connections>
                                 <action selector="makeContacts:" destination="BYZ-38-t0r" id="EZj-q8-ODJ"/>
@@ -95,6 +100,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="309" y="374"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AeF-RI-Lyc">
+            <objects>
+                <navigationController id="NX3-Ad-9jb" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="W01-qe-JSP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Cmi-0w-vXi" kind="relationship" relationship="rootViewController" id="vXM-De-Dti"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s2h-rr-RyE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="274" y="1245"/>
         </scene>
         <!--Title-->
         <scene sceneID="91t-ZJ-5Va">
@@ -133,6 +154,75 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dRN-7r-uZg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1034" y="368"/>
+        </scene>
+        <!--Edit-->
+        <scene sceneID="hBb-qc-2vi">
+            <objects>
+                <viewController id="Cmi-0w-vXi" customClass="EditViewController" customModule="CodersOnly" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eQ2-hj-lIb"/>
+                        <viewControllerLayoutGuide type="bottom" id="bP0-3g-MgF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Qcq-aK-usU">
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kxQ-gQ-4d1">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="Vqd-AG-IyK" detailTextLabel="rL0-6G-WVY" style="IBUITableViewCellStyleSubtitle" id="1Zn-oc-KaE">
+                                        <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1Zn-oc-KaE" id="XPB-Qs-g13">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Vqd-AG-IyK">
+                                                    <rect key="frame" x="15" y="6" width="31.5" height="19.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="rL0-6G-WVY">
+                                                    <rect key="frame" x="15" y="25.5" width="40.5" height="13.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Cmi-0w-vXi" id="xTi-0i-Ibv"/>
+                                    <outlet property="delegate" destination="Cmi-0w-vXi" id="xty-kC-xGR"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kxQ-gQ-4d1" firstAttribute="top" secondItem="eQ2-hj-lIb" secondAttribute="bottom" id="PfX-AE-c2e"/>
+                            <constraint firstItem="kxQ-gQ-4d1" firstAttribute="leading" secondItem="Qcq-aK-usU" secondAttribute="leading" id="gFK-ea-iPM"/>
+                            <constraint firstItem="bP0-3g-MgF" firstAttribute="top" secondItem="kxQ-gQ-4d1" secondAttribute="bottom" id="j2X-46-YNw"/>
+                            <constraint firstAttribute="trailing" secondItem="kxQ-gQ-4d1" secondAttribute="trailing" id="wpJ-xv-CzA"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" title="Edit" id="Z5T-MT-KUA">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="lr1-Gp-KGm"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="Rv1-El-3Nd"/>
+                    </navigationItem>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="kxQ-gQ-4d1" id="Lue-iu-de6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="G2J-Yr-CV1" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1028" y="1245"/>
         </scene>
     </scenes>
 </document>
