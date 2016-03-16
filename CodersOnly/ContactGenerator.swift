@@ -7,6 +7,7 @@
 //
 
 import CoreData
+import MagicalRecord
 
 class ContactGenerator {
     
@@ -18,17 +19,15 @@ class ContactGenerator {
     
     func generate() {
         
-        if let contactDescription = NSEntityDescription.entityForName("Contact", inManagedObjectContext: context) {
-            
-            let contact1 = Contact(entity: contactDescription, insertIntoManagedObjectContext:context)
+        
+        if let contact1 = Contact.MR_createEntityInContext(context) {
             contact1.firstName = "Tim"
             contact1.lastName = "Cook"
             contact1.jobTitle = "CEO"
             contact1.company = "Apple"
             contact1.isFavorite = true
             
-            if let addressDescription = NSEntityDescription.entityForName("Address", inManagedObjectContext: context) {
-                let address = Address(entity: addressDescription, insertIntoManagedObjectContext: context)
+            if let address = Address.MR_createEntityInContext(context) {
                 address.street = "1 Infinite Loop"
                 address.city = "Cupertino"
                 address.state = "CA"
@@ -36,79 +35,74 @@ class ContactGenerator {
                 address.contact = contact1
             }
             
-            if let emailDescription = NSEntityDescription.entityForName("EmailAddress", inManagedObjectContext: context) {
-                let email = EmailAddress(entity: emailDescription, insertIntoManagedObjectContext: context)
+            if let email = EmailAddress.MR_createEntityInContext(context) {
                 email.type = "work"
                 email.emailAddress = "tim@apple.com"
                 email.contact = contact1
-                
-                let email2 = EmailAddress(entity: emailDescription, insertIntoManagedObjectContext: context)
+            }
+            
+            if let email2 = EmailAddress.MR_createEntityInContext(context) {
                 email2.type = "home"
                 email2.emailAddress = "infiniteTim@mac.com"
                 email2.contact = contact1
             }
-            
-            let contact2 = Contact(entity: contactDescription, insertIntoManagedObjectContext:context)
+        }
+        
+        if let contact2 = Contact.MR_createEntityInContext(context)  {
+           
             contact2.firstName = "Bill"
             contact2.lastName = "Gates"
             contact2.jobTitle = "President"
             contact2.company = "Microsoft"
             contact2.isFavorite = true
             
-            if let emailDescription = NSEntityDescription.entityForName("EmailAddress", inManagedObjectContext: context) {
-                let email = EmailAddress(entity: emailDescription, insertIntoManagedObjectContext: context)
+            if let email = EmailAddress.MR_createEntityInContext(context) {
                 email.type = "work"
                 email.emailAddress = "bill@microsoft.com"
                 email.contact = contact2
-                
-                let email2 = EmailAddress(entity: emailDescription, insertIntoManagedObjectContext: context)
+            }
+            
+            if let email2 = EmailAddress.MR_createEntityInContext(context) {
                 email2.type = "home"
                 email2.emailAddress = "bill@hotmail.com"
                 email2.contact = contact2
             }
             
-            if let phoneDecription = NSEntityDescription.entityForName("PhoneNumber", inManagedObjectContext: context) {
-                let phone = PhoneNumber(entity: phoneDecription, insertIntoManagedObjectContext: context)
+            if let phone = PhoneNumber.MR_createEntityInContext(context) {
                 phone.type = "work"
                 phone.phoneNumber = "703-555-3333"
                 phone.contact = contact2
             }
-
-            let contact3 = Contact(entity: contactDescription, insertIntoManagedObjectContext:context)
+        }
+            
+        if let contact3 = Contact.MR_createEntityInContext(context) {
             contact3.firstName = "Larry"
             contact3.lastName = "Page"
             contact3.jobTitle = "CEO"
             contact3.company = "Google"
             contact3.isFavorite = true
             
-            if let emailDescription = NSEntityDescription.entityForName("EmailAddress", inManagedObjectContext: context) {
-                let email = EmailAddress(entity: emailDescription, insertIntoManagedObjectContext: context)
+            if let email = EmailAddress.MR_createEntityInContext(context) {
                 email.type = "work"
                 email.emailAddress = "larry@google.com"
                 email.contact = contact3
             }
             
-            if let socialDescription = NSEntityDescription.entityForName("SocialNetwork", inManagedObjectContext: context) {
-                let social = SocialNetwork(entity: socialDescription, insertIntoManagedObjectContext: context)
+            if let social = SocialNetwork.MR_createEntityInContext(context) {
                 social.type = "Google Plus"
                 social.handle = "larry@google.com"
                 social.contact = contact3
             }
             
-            if let phoneDecription = NSEntityDescription.entityForName("PhoneNumber", inManagedObjectContext: context) {
-                let phone = PhoneNumber(entity: phoneDecription, insertIntoManagedObjectContext: context)
+            if let phone = PhoneNumber.MR_createEntityInContext(context) {
                 phone.type = "work"
                 phone.phoneNumber = "703-555-9999"
                 phone.contact = contact3
             }
+        }
             
-        }
-
-        do {
-            try context.save()
-        } catch {
-            print("Couldn't make contacts")
-        }
+        // Save and wait is actually not a great strategy.
+        context.MR_saveToPersistentStoreAndWait()
         
     }
 }

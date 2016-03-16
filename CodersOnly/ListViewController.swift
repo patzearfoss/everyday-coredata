@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import MagicalRecord
 
 class ListViewController: UIViewController {
 
@@ -44,14 +45,11 @@ class ListViewController: UIViewController {
     
     func reload() {
         
-        let fetchRequest = NSFetchRequest(entityName: "Contact")
-        
         if let context = context {
             
-            do {
-                try contacts = context.executeFetchRequest(fetchRequest) as! [Contact]
-            } catch {
-                print ("couldn't load contacts")
+            if let fetchedContacts = Contact.MR_findAllSortedBy("lastName", ascending: true, inContext: context) as? [Contact] {
+                
+                contacts = fetchedContacts
             }
             
         }
