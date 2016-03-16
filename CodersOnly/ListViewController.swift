@@ -15,16 +15,16 @@ class ListViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var contacts = [Contact]()
-//        {
-//        didSet {
-//            
-//            let objectIds = contacts.map({$0.objectID})
-//            
-//            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-//                self.naughtyLog(self.contacts)
-//            }
-//        }
-//    }
+        {
+        didSet {
+            
+            let objectIds = contacts.map({$0.objectID})
+            
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+                self.naughtyLog(objectIds)
+            }
+        }
+    }
     var context: NSManagedObjectContext?
 
     var fetchedResultsController: NSFetchedResultsController!
