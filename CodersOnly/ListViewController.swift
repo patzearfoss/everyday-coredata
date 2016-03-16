@@ -14,7 +14,13 @@ class ListViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
-    var contacts = [Contact]()
+    var contacts = [Contact]() {
+        didSet {
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+                self.naughtyLog(self.contacts)
+            }
+        }
+    }
     var context: NSManagedObjectContext?
 
     var fetchedResultsController: NSFetchedResultsController!
@@ -103,6 +109,21 @@ extension ListViewController: UITableViewDataSource {
     }
 }
 
+extension ListViewController {
+    
+    func naughtyLog(contacts: [Contact]) {
+        
+        print ("*** Log all the contacts ***")
+        
+        contacts.forEach{
+            print ($0.firstName! + " " + $0.lastName!)
+        }
+        
+        print ("*** That's all there is ***")
+    }
+    
+}
+
 extension ListViewController: NSFetchedResultsControllerDelegate {
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
@@ -111,7 +132,6 @@ extension ListViewController: NSFetchedResultsControllerDelegate {
             tableView.reloadData()
         }
     }
-    
 }
 
 extension ListViewController: UITableViewDelegate {
