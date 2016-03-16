@@ -15,17 +15,23 @@ class ListViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     var contacts = [Contact]()
-    var context: NSManagedObjectContext? {
-        didSet {
-            if oldValue == nil && tableView != nil {
-                reload()
-            }
-        }
-    }
+    var context: NSManagedObjectContext?
+
+    var fetchedResultsController: NSFetchedResultsController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        reload()
+        
+        if let context = context {
+            
+            fetchedResultsController = Contact.MR_fetchAllSortedBy("lastName", ascending: true, withPredicate: nil, groupBy: nil, delegate: self, inContext: context)
+
+            if let items = fetchedResultsController.fetchedObjects as? [Contact] {
+                contacts = items
+                tableView.reloadData()
+            }
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,21 +46,6 @@ class ListViewController: UIViewController {
             let generator = ContactGenerator(context: context)
             generator.generate()
         }
-        reload()
-    }
-    
-    func reload() {
-        
-        if let context = context {
-            
-            if let fetchedContacts = Contact.MR_findAllSortedBy("lastName", ascending: true, inContext: context) as? [Contact] {
-                
-                contacts = fetchedContacts
-            }
-            
-        }
-        
-        tableView.reloadData()
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -76,7 +67,6 @@ class ListViewController: UIViewController {
 
 extension ListViewController {
     @IBAction func unwindToList(segue: UIStoryboardSegue) {
-        reload()
     }
 }
 
@@ -111,6 +101,17 @@ extension ListViewController: UITableViewDataSource {
         }
         
     }
+}
+
+extension ListViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        if let items = controller.fetchedObjects as? [Contact] {
+            contacts = items
+            tableView.reloadData()
+        }
+    }
+    
 }
 
 extension ListViewController: UITableViewDelegate {
