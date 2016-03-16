@@ -212,15 +212,20 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Edit" id="Z5T-MT-KUA">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="lr1-Gp-KGm"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="Rv1-El-3Nd"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="Rv1-El-3Nd">
+                            <connections>
+                                <action selector="doneButtonTap:" destination="Cmi-0w-vXi" id="en0-QX-Dbs"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="kxQ-gQ-4d1" id="Lue-iu-de6"/>
+                        <segue destination="nwz-vZ-Duw" kind="unwind" identifier="unwindToList" unwindAction="unwindToList:" id="DtN-Se-RlV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="G2J-Yr-CV1" sceneMemberID="firstResponder"/>
+                <exit id="nwz-vZ-Duw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1028" y="1245"/>
         </scene>
