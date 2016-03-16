@@ -26,8 +26,8 @@ class Contact: NSManagedObject {
                 
                 }.first
             
-            
-            self.displayedEmailAddress = topEmail?.emailAddress
+            self.setPrimitiveValue(topEmail?.emailAddress, forKey: "displayedEmailAddress")
+//            self.displayedEmailAddress = topEmail?.emailAddress
             
         }
     }
