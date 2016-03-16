@@ -74,6 +74,12 @@ class ListViewController: UIViewController {
     }
 }
 
+extension ListViewController {
+    @IBAction func unwindToList(segue: UIStoryboardSegue) {
+        reload()
+    }
+}
+
 extension ListViewController: UITableViewDataSource {
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

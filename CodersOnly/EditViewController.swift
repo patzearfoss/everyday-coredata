@@ -19,6 +19,7 @@ class EditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.editing = true
         reload()
     }
     
@@ -37,20 +38,8 @@ class EditViewController: UIViewController {
         tableView.reloadData()
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "toDetail" {
-            if let dest = segue.destinationViewController as? DetailViewController {
-                
-                if let indexPath = tableView.indexPathForSelectedRow {
-                    tableView.deselectRowAtIndexPath(indexPath, animated: true)
-                    let contact = contacts[indexPath.row]
-                    
-                    dest.contact = contact
-                }
-                
-                
-            }
-        }
+    @IBAction func doneButtonTap(sender: AnyObject) {
+        self.performSegueWithIdentifier("unwindToList", sender: self)
     }
 }
 
@@ -82,6 +71,23 @@ extension EditViewController: UITableViewDataSource {
         
         if let email = contact.displayedEmailAddress {
             cell.detailTextLabel?.text = email
+        }
+        
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if editingStyle == .Delete {
+            
+            let contact = contacts[indexPath.row]
+            contact.MR_deleteEntity()
+            context.MR_saveToPersistentStoreWithCompletion { success, error in
+                if success {
+                    self.contacts.removeAtIndex(indexPath.row)
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                }
+            }
+            
         }
         
     }
