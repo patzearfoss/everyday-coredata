@@ -14,13 +14,17 @@ class ListViewController: UIViewController {
 
     @IBOutlet var tableView: UITableView!
     
-    var contacts = [Contact]() {
-        didSet {
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
-                self.naughtyLog(self.contacts)
-            }
-        }
-    }
+    var contacts = [Contact]()
+//        {
+//        didSet {
+//            
+//            let objectIds = contacts.map({$0.objectID})
+//            
+//            dispatch_async(dispatch_get_global_queue(QOS_CLASS_UTILITY, 0)) {
+//                self.naughtyLog(self.contacts)
+//            }
+//        }
+//    }
     var context: NSManagedObjectContext?
 
     var fetchedResultsController: NSFetchedResultsController!
@@ -111,15 +115,21 @@ extension ListViewController: UITableViewDataSource {
 
 extension ListViewController {
     
-    func naughtyLog(contacts: [Contact]) {
+    func naughtyLog(contacts: [NSManagedObjectID]) {
         
-        print ("*** Log all the contacts ***")
+        let newMoc = NSManagedObjectContext.MR_contextWithParent(context!)
         
-        contacts.forEach{
-            print ($0.firstName! + " " + $0.lastName!)
+        newMoc.performBlock {
+            print ("*** Log all the contacts ***")
+
+            contacts.forEach {
+                let contact = newMoc.objectWithID($0) as! Contact
+                print (contact.firstName! + " " + contact.lastName!)
+            }
+            
+            print ("*** That's all there is ***")
         }
-        
-        print ("*** That's all there is ***")
+
     }
     
 }
