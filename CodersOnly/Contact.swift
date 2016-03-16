@@ -26,9 +26,10 @@ class Contact: NSManagedObject {
                 
                 }.first
             
-            
-            self.displayedEmailAddress = topEmail?.emailAddress
-            
+            // In the previous commit, I was using a property accessor in willSave,
+            // this causes issues in saving the context, so it's safer to call
+            // setPrimitiveValue:forKey:
+            self.setPrimitiveValue(topEmail?.emailAddress, forKey: "displayedEmailAddress")
         }
     }
 }
