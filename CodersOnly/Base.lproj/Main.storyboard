@@ -212,6 +212,11 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Edit" id="Z5T-MT-KUA">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4WA-rQ-Pu5">
+                            <connections>
+                                <action selector="cancelButtonTap:" destination="Cmi-0w-vXi" id="dJz-O9-H60"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Done" id="Rv1-El-3Nd">
                             <connections>
                                 <action selector="doneButtonTap:" destination="Cmi-0w-vXi" id="en0-QX-Dbs"/>

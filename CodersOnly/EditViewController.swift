@@ -16,6 +16,26 @@ class EditViewController: UIViewController {
     
     var contacts = [Contact]()
     var context = NSManagedObjectContext.MR_defaultContext()
+    var paddingContext: NSManagedObjectContext!
+    var editingContext: NSManagedObjectContext!
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        setupContexts()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupContexts()
+    }
+    
+    func setupContexts() {
+        paddingContext = NSManagedObjectContext.MR_newMainQueueContext()
+        paddingContext.parentContext = context
+        
+        editingContext = NSManagedObjectContext.MR_newMainQueueContext()
+        editingContext.parentContext = paddingContext
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,16 +50,24 @@ class EditViewController: UIViewController {
     
     func reload() {
         
-        if let fetchedContacts = Contact.MR_findAllSortedBy("lastName", ascending: true, inContext: context) as? [Contact] {
+        if let fetchedContacts = Contact.MR_findAllSortedBy("lastName", ascending: true, inContext: editingContext) as? [Contact] {
             
             contacts = fetchedContacts
         }
             
         tableView.reloadData()
     }
+
+    @IBAction func cancelButtonTap(sender: AnyObject) {
+        self.performSegueWithIdentifier("unwindToList", sender: self)
+    }
     
     @IBAction func doneButtonTap(sender: AnyObject) {
-        self.performSegueWithIdentifier("unwindToList", sender: self)
+        
+        paddingContext.MR_saveToPersistentStoreWithCompletion { (success, error) in
+            self.performSegueWithIdentifier("unwindToList", sender: self)
+        }
+        
     }
 }
 
@@ -81,7 +109,7 @@ extension EditViewController: UITableViewDataSource {
             
             let contact = contacts[indexPath.row]
             contact.MR_deleteEntity()
-            context.MR_saveToPersistentStoreWithCompletion { success, error in
+            editingContext.MR_saveOnlySelfWithCompletion { success, error in
                 if success {
                     self.contacts.removeAtIndex(indexPath.row)
                     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
